@@ -1,0 +1,42 @@
+[
+  {
+    "id": "11111111-1111-4111-8111-111111111111",
+    "title": "Read the Ziptrrip assignment brief",
+    "description": "Go through both challenges and note the requirements.",
+    "completed": true,
+    "priority": "high",
+    "dueDate": "2026-06-27",
+    "createdAt": "2026-06-25T09:00:00.000Z",
+    "updatedAt": "2026-06-25T09:00:00.000Z"
+  },
+  {
+    "id": "22222222-2222-4222-8222-222222222222",
+    "title": "Build the todo backend",
+    "description": "Express CRUD API with file-based persistence.",
+    "completed": false,
+    "priority": "high",
+    "dueDate": "2026-06-28",
+    "createdAt": "2026-06-25T10:30:00.000Z",
+    "updatedAt": "2026-06-25T10:30:00.000Z"
+  },
+  {
+    "id": "33333333-3333-4333-8333-333333333333",
+    "title": "Build the multi-page React frontend",
+    "description": "List page + single-todo page that reads an id query param.",
+    "completed": false,
+    "priority": "medium",
+    "dueDate": "2026-06-29",
+    "createdAt": "2026-06-25T11:00:00.000Z",
+    "updatedAt": "2026-06-25T11:00:00.000Z"
+  },
+  {
+    "id": "44444444-4444-4444-8444-444444444444",
+    "title": "Write the documentation",
+    "description": "README + API docs + feature list, all in .md files.",
+    "completed": false,
+    "priority": "low",
+    "dueDate": null,
+    "createdAt": "2026-06-25T11:15:00.000Z",
+    "updatedAt": "2026-06-25T11:15:00.000Z"
+  }
+]

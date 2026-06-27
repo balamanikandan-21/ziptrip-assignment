@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Challenge 1 — Q5: Three-box layout (multiple approaches)</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin: 24px;
+      color: #1f2937;
+    }
+    h1 { font-size: 20px; }
+    h2 { font-size: 15px; margin: 28px 0 8px; }
+    p.note { color: #6b7280; font-size: 13px; margin: 4px 0 12px; }
+
+    /* Each demo container is resizable so you can SEE the middle box
+       expand/shrink while the side boxes stay fixed at 100px. */
+    .container {
+      border: 2px dashed #9ca3af;
+      resize: horizontal;
+      overflow: auto;
+      min-width: 260px;
+      max-width: 100%;
+      padding: 0;
+    }
+
+    /* Shared look for the boxes */
+    .box { height: 70px; box-sizing: border-box; color: #fff;
+           display: flex; align-items: center; justify-content: center;
+           font-size: 13px; font-weight: 600; }
+    .left   { background: #2563eb; }  /* fixed 100px */
+    .middle { background: #16a34a; }  /* expands     */
+    .right  { background: #dc2626; }  /* fixed 100px */
+
+    /* ============================================================
+       APPROACH 1 — FLEXBOX
+       ============================================================ */
+    .flex.container { display: flex; }
+    .flex .left,
+    .flex .right  { flex: 0 0 100px; }  /* don't grow, don't shrink, base 100px */
+    .flex .middle { flex: 1 1 auto; }   /* take all remaining space */
+
+    /* ============================================================
+       APPROACH 2 — CSS GRID
+       ============================================================ */
+    .grid.container { display: grid; grid-template-columns: 100px 1fr 100px; }
+
+    /* ============================================================
+       APPROACH 3 — FLOATS  (the "classic" pre-flexbox way)
+       ============================================================ */
+    .float.container::after { content: ""; display: block; clear: both; } /* clearfix */
+    .float .left  { float: left;  width: 100px; }
+    .float .right { float: right; width: 100px; }
+    .float .middle { margin: 0 100px; }  /* leave room for both sides */
+
+    /* ============================================================
+       APPROACH 4 — ABSOLUTE POSITIONING
+       ============================================================ */
+    .abs.container { position: relative; height: 70px; }
+    .abs .left  { position: absolute; left: 0;  top: 0; width: 100px; }
+    .abs .right { position: absolute; right: 0; top: 0; width: 100px; }
+    .abs .middle { margin: 0 100px; }  /* sits between the two fixed sides */
+
+    /* ============================================================
+       APPROACH 5 — display: table / table-cell
+       ============================================================ */
+    .table.container { display: table; width: 100%; }
+    .table .box    { display: table-cell; height: 70px; vertical-align: middle; }
+    .table .left,
+    .table .right  { width: 100px; }
+    /* middle has no width -> table gives it the remaining space */
+
+    /* ============================================================
+       APPROACH 6 — inline-block + calc()
+       ============================================================ */
+    .calc.container { font-size: 0; }                 /* kill inline-block gaps */
+    .calc .box     { display: inline-block; vertical-align: top; font-size: 13px; }
+    .calc .left,
+    .calc .right   { width: 100px; }
+    .calc .middle  { width: calc(100% - 200px); }     /* fill the rest */
+  </style>
+</head>
+<body>
+  <h1>Q5 — Left 100px · Middle expands · Right 100px</h1>
+  <p class="note">
+    Drag the bottom-right corner of any dashed box to resize it. The blue
+    (left) and red (right) boxes stay locked at 100px; the green (middle)
+    box absorbs all the change. Nothing overlaps.
+  </p>
+
+  <h2>1. Flexbox &nbsp;<span class="note">(recommended)</span></h2>
+  <div class="flex container">
+    <div class="left box">left 100px</div>
+    <div class="middle box">middle — expands</div>
+    <div class="right box">right 100px</div>
+  </div>
+
+  <h2>2. CSS Grid</h2>
+  <div class="grid container">
+    <div class="left box">left 100px</div>
+    <div class="middle box">middle — expands</div>
+    <div class="right box">right 100px</div>
+  </div>
+
+  <h2>3. Floats + margins</h2>
+  <p class="note">Note: the middle box must come AFTER the two floats in the HTML for this technique.</p>
+  <div class="float container">
+    <div class="left box">left 100px</div>
+    <div class="right box">right 100px</div>
+    <div class="middle box">middle — expands</div>
+  </div>
+
+  <h2>4. Absolute positioning</h2>
+  <div class="abs container">
+    <div class="left box">left 100px</div>
+    <div class="middle box">middle — expands</div>
+    <div class="right box">right 100px</div>
+  </div>
+
+  <h2>5. display: table / table-cell</h2>
+  <div class="table container">
+    <div class="left box">left 100px</div>
+    <div class="middle box">middle — expands</div>
+    <div class="right box">right 100px</div>
+  </div>
+
+  <h2>6. inline-block + calc()</h2>
+  <div class="calc container">
+    <div class="left box">left 100px</div>
+    <div class="middle box">middle — expands</div>
+    <div class="right box">right 100px</div>
+  </div>
+</body>
+</html>

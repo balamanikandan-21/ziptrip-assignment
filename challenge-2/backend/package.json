@@ -1,0 +1,19 @@
+{
+  "name": "ziptrip-todo-backend",
+  "version": "1.0.0",
+  "description": "Express CRUD API for the Ziptrrip todo assignment (file-based storage).",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test:api": "node scripts/smoke-test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}
