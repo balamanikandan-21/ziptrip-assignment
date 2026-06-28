@@ -18,6 +18,8 @@ yarn-error.log*
 # Editor / OS / tooling
 .DS_Store
 Thumbs.db
+~$*
+*.tmp
 .vscode/
 .idea/
 .claude/
