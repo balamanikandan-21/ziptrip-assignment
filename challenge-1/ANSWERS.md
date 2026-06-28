@@ -93,7 +93,7 @@ HTML under test (line numbers as given):
 1   <div id="container">
 2       <div class="box"></div>
 3
-4       <div class="box-2"></div>
+4       <div class="box2"></div>
 5       <div>
 6           <div class="box"></div>
 7       </div>
@@ -108,7 +108,7 @@ Quick reference of every element that has a class:
 |-----:|--------------------------|:-------------:|:------------:|-------------|
 | 1    | `#container`             | yes           | no (`id`)    | —           |
 | 2    | `.box`                   | yes           | yes          | `box`       |
-| 4    | `.box-2`                 | yes           | yes          | `box-2`     |
+| 4    | `.box2`                  | yes           | yes          | `box2`      |
 | 5    | bare `<div>`             | yes           | no           | —           |
 | 6    | `.box` (nested)          | yes           | yes          | `box`       |
 | 10   | `.box` (top level)       | yes           | yes          | `box`       |
@@ -118,8 +118,8 @@ Quick reference of every element that has a class:
 - **Why these:** a class selector matches every element whose class list
   contains the token `box`. Lines 2, 6 and 10 each have `class="box"`.
 - **Why not the others:** Line 1 has an `id`, not a class. **Line 4 is
-  `class="box-2"`** — class matching is on whole space-separated tokens, and
-  the single token `box-2` is **not** `box`, so it does not match. Line 5 is a
+  `class="box2"`** — class matching is on whole space-separated tokens, and
+  the single token `box2` is **not** `box`, so it does not match. Line 5 is a
   `<div>` with no class. The remaining lines are blank/closing tags.
 
 ### `div .box`  →  **lines 2, 6**
@@ -138,7 +138,7 @@ Quick reference of every element that has a class:
 - **Why these:** with **no space**, `div.box` is a *compound* selector — a
   **single** element that is **both** a `<div>` **and** carries class `box`.
   Lines 2, 6 and 10 are each a `<div class="box">`.
-- **Why not the others:** Line 4 is a `<div>` but its class is `box-2`, not
+- **Why not the others:** Line 4 is a `<div>` but its class is `box2`, not
   `box`. Line 1 is a `<div>` but has no `box` class.
 - **Note:** here the result is the same as `.box` (2, 6, 10) only because every
   `box` element happens to be a `<div>`. If the markup contained, say,
@@ -149,19 +149,45 @@ Quick reference of every element that has a class:
 
 - **Why these:** an attribute-presence selector matches any element that simply
   **has** a `class` attribute, whatever its value. Lines 2 (`box`),
-  **4 (`box-2`)**, 6 (`box`) and 10 (`box`) all have a `class` attribute — so
+  **4 (`box2`)**, 6 (`box`) and 10 (`box`) all have a `class` attribute — so
   line 4 **is** included here even though it was excluded by `.box`.
 - **Why not the others:** Line 1 has an `id` attribute but **no `class`**.
   Line 5 is a `<div>` with no attributes at all. Both are excluded.
 
+### `#container .box`  →  **lines 2, 6**
+
+- **Why these:** `#container` matches the element with `id="container"` (line 1),
+  and the **space** is a *descendant combinator*, so this means "any `.box`
+  **inside** `#container`, at any depth." Line 2 is a direct child of
+  `#container`; line 6 is a deeper descendant (inside the `<div>` on line 5,
+  which is itself inside `#container`). Both qualify.
+- **Why not the others:** **Line 10's box is outside `#container`** (it is a
+  sibling that comes after the closing `</div>` on line 8), so it has no
+  `#container` ancestor and is excluded. Line 4 is `box2`, not `box`. (Note this
+  gives the same result as `div .box` here — 2, 6 — because `#container` is the
+  outermost div.)
+
+### `#container > .box`  →  **line 2**
+
+- **Why this one:** the **`>`** is the *child combinator* — it matches only
+  `.box` elements that are **direct children** of `#container`. Line 2 is a
+  direct child of `#container`, so it matches.
+- **Why not the others:** **Line 6 is excluded** because it is a *grandchild*
+  of `#container` (its direct parent is the `<div>` on line 5, not
+  `#container`) — `>` does not reach descendants beyond one level. Line 10 is
+  outside `#container` entirely. Line 4 is `box2`, not `box`. This is the
+  strictest of the three "box inside container" selectors.
+
 ### Summary table
 
-| Selector   | Selected lines | Note |
-|------------|----------------|------|
-| `.box`     | 2, 6, 10       | class token must equal `box` (so `box-2` is out) |
-| `div .box` | 2, 6           | `.box` must be **nested inside** a div (line 10 isn't) |
-| `div.box`  | 2, 6, 10       | element is **both** a div **and** `.box` |
-| `[class]`  | 2, 4, 6, 10    | any element that **has** a class attribute |
+| Selector           | Selected lines | Note |
+|--------------------|----------------|------|
+| `.box`             | 2, 6, 10       | class token must equal `box` (so `box2` is out) |
+| `div .box`         | 2, 6           | `.box` must be **nested inside** a div (line 10 isn't) |
+| `div.box`          | 2, 6, 10       | element is **both** a div **and** `.box` |
+| `[class]`          | 2, 4, 6, 10    | any element that **has** a class attribute |
+| `#container .box`  | 2, 6           | any `.box` **descendant** of `#container` (line 10 is outside it) |
+| `#container > .box`| 2              | only `.box` **direct children** of `#container` (line 6 is a grandchild) |
 
 ---
 
